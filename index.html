@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 사회 수행평가 탐구 워크북 - 도시문제를 조사하고 비판적으로 글쓰기</title>
+    <!-- Tailwind CSS 로드 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Noto Sans KR & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        /* 인쇄 전용 스타일 설정 */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #print-area, #print-area * {
+                visibility: visible;
+            }
+            #print-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                padding: 16px;
+                background: white !important;
+                box-shadow: none !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- 상단 알림 토스트 컨테이너 -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- 헤더 영역 -->
+    <header class="bg-gradient-to-r from-slate-900 via-indigo-900 to-blue-800 text-white shadow-lg no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <div class="flex flex-wrap items-center gap-2 text-indigo-200 text-xs sm:text-sm font-semibold mb-1.5">
+                        <span class="bg-white/15 px-2.5 py-0.5 rounded-full border border-white/20">2026학년도 2학기 2차 사회 수행평가</span>
+                        <span>[9사(지리)08-04] 스스로 묻고 탐구하는 글쓰기 워크북</span>
+                    </div>
+                    <h1 class="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight flex items-center gap-2.5">
+                        <i data-lucide="compass" class="w-7 h-7 text-sky-300"></i>
+                        도시문제를 조사하고 비판적으로 글쓰기
+                    </h1>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="openPreviewModal()" class="px-4 py-2 bg-sky-500 hover:bg-sky-400 text-slate-950 rounded-xl text-sm font-bold transition flex items-center gap-1.5 shadow-sm">
+                        <i data-lucide="file-text" class="w-4 h-4"></i>
+                        내 탐구 노트 미리보기
+                    </button>
+                    <button onclick="confirmResetModal()" class="px-3.5 py-2 bg-white/10 hover:bg-rose-500/80 text-white rounded-xl text-sm font-medium transition flex items-center gap-1.5 border border-white/15">
+                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                        초기화
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 메인 컨텐츠 영역 -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- 왼쪽/중앙: 단계별 탐구 및 작성 영역 (8컬럼) -->
+        <div class="lg:col-span-8 space-y-6 no-print">
+            
+            <!-- 학생 기본 정보 및 탐구 원칙 안내 -->
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
+                    <div>
+                        <h2 class="text-base sm:text-lg font-bold text-slate-800 flex items-center gap-2">
+                            <i data-lucide="notebook-pen" class="w-5 h-5 text-indigo-600"></i>
+                            나만의 사회 탐구 노트 기본 정보
+                        </h2>
+                        <p class="text-xs sm:text-sm text-slate-500 mt-0.5">
+                            수업 시간 수행평가에는 <strong>자신이 직접 조사해 정리한 사회 노트만</strong> 참고할 수 있습니다. 질문에 답하며 나만의 근거를 모아보세요!
+                        </p>
+                    </div>
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 self-start sm:self-center whitespace-nowrap">
+                        총 25점 (기본점수 10점)
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3 sm:gap-4 mt-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">학년 / 반</label>
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-sm font-bold text-slate-700 whitespace-nowrap">3학년</span>
+                            <input type="text" id="student-class" placeholder="반" oninput="updateAll()" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <span class="text-sm font-bold text-slate-700">반</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">번호</label>
+                        <div class="flex items-center gap-1.5">
+                            <input type="text" id="student-number" placeholder="번호" oninput="updateAll()" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <span class="text-sm font-bold text-slate-700">번</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">이름</label>
+                        <input type="text" id="student-name" placeholder="이름 입력" oninput="updateAll()" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                </div>
+            </section>
+
+            <!-- 문항별 탭 버튼 (탭 1, 2, 3, 4) -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" role="tablist">
+                <button onclick="switchTab(1)" id="tab-btn-1" class="tab-btn py-3 px-3 rounded-xl font-bold text-xs sm:text-sm transition flex flex-col items-center justify-center gap-1 bg-indigo-600 text-white shadow-md">
+                    <span>탭 1. 살기 좋은 도시</span>
+                    <span id="badge-1" class="text-[11px] px-2 py-0.5 rounded-full bg-white/20">탐구 0/5</span>
+                </button>
+                <button onclick="switchTab(2)" id="tab-btn-2" class="tab-btn py-3 px-3 rounded-xl font-bold text-xs sm:text-sm transition flex flex-col items-center justify-center gap-1 bg-white text-slate-600 border border-slate-200 hover:bg-slate-50">
+                    <span>탭 2. 살기 힘든 도시</span>
+                    <span id="badge-2" class="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">탐구 0/5</span>
+                </button>
+                <button onclick="switchTab(3)" id="tab-btn-3" class="tab-btn py-3 px-3 rounded-xl font-bold text-xs sm:text-sm transition flex flex-col items-center justify-center gap-1 bg-white text-slate-600 border border-slate-200 hover:bg-slate-50">
+                    <span>탭 3. 내가 사는 도시</span>
+                    <span id="badge-3" class="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">탐구 0/6</span>
+                </button>
+                <button onclick="switchTab(4)" id="tab-btn-4" class="tab-btn py-3 px-3 rounded-xl font-bold text-xs sm:text-sm transition flex flex-col items-center justify-center gap-1 bg-white text-slate-600 border border-slate-200 hover:bg-slate-50">
+                    <span>탭 4. 도시의 조건 제시</span>
+                    <span id="badge-4" class="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">탐구 0/5</span>
+                </button>
+            </div>
+
+            <!-- ================================================================= -->
+            <!-- [탭 1] 세계에서 살기 좋은 도시 조사하기 (5점) -->
+            <!-- ================================================================= -->
+            <section id="panel-1" class="tab-panel bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6 space-y-6">
+                <div class="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-r-xl">
+                    <div class="flex justify-between items-start gap-2">
+                        <h3 class="font-bold text-emerald-950 text-base sm:text-lg">
+                            [문항 1] 세계에서 살기 좋은 도시 조사하기 [5점]
+                        </h3>
+                        <span class="text-xs font-bold bg-emerald-200 text-emerald-900 px-2.5 py-1 rounded-lg whitespace-nowrap">탐구 3단계</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-emerald-800 mt-1">
+                        세계 순위 지표를 먼저 찾아보고, 호기심이 생기는 도시 한 곳을 골라 <strong>① 나라·도시명, ② 살기 좋은 이유, ③ 구체적 증거, ④ 내가 산다면 어떨지</strong>를 모두 담아 정리해 봅시다.
+                    </p>
+                </div>
+
+                <!-- Step 1-1: 세계 순위 지표 탐색 -->
+                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                    <div class="flex items-center gap-2 text-emerald-700 font-bold text-sm">
+                        <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs">1</span>
+                        <span>세계 순위 지표 찾아보기 (호기심 출발점)</span>
+                    </div>
+                    <div class="bg-white p-3.5 rounded-xl border border-emerald-100 text-xs text-slate-600 space-y-1.5">
+                        <p class="font-bold text-slate-800 flex items-center gap-1.5">
+                            <i data-lucide="help-circle" class="w-4 h-4 text-emerald-600"></i>
+                            스스로에게 던지는 탐구 질문:
+                        </p>
+                        <ul class="list-disc list-inside space-y-1 text-slate-600">
+                            <li>전 세계 도시들의 '삶의 질'이나 '행복지수', '환경·안전' 순위를 발표하는 기관이나 지표에는 무엇이 있을까? <span class="text-slate-400">(검색 키워드 힌트: 세계 살기 좋은 도시 순위 EIU, Mercer 삶의 질 지수, 세계 행복 보고서 도시 순위 등)</span></li>
+                            <li>순위표 상위권(1~20위)에 오른 도시들 중 <strong>"왜 이 도시가 순위가 높을까?"</strong> 하고 가장 궁금해진 도시는 어디인가요?</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">
+                            내가 참고한 세계 순위 지표 이름과 순위 정보 <span class="text-rose-500">*</span>
+                        </label>
+                        <input type="text" id="q1-index" placeholder="어떤 기관의 무슨 순위 지표를 찾았나요? (예: ○○○에서 발표한 2025 세계 살기 좋은 도시 지수에서 ○위 기록)" oninput="updateAll()" class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+                </div>
+
+                <!-- Step 1-2: 도시 선정 및 이유·증거 조사 -->
+                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+                    <div class="flex items-center gap-2 text-emerald-700 font-bold text-sm">
+                        <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs">2</span>
+                        <span>호기심 도시 선정 및 이유·구체적 증거 탐구</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">
+                                ① 선정한 나라 이름과 도시 이름 <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="text" id="q1-city" placeholder="나라 이름과 도시 이름을 함께 적으세요" oninput="updateAll()" class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">
+                                ② 이 도시가 살기 좋은 핵심 이유 <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="text" id="q1-reason" placeholder="교통, 환경, 치안, 교육, 문화 중 어떤 점이 뛰어난가요?" oninput="updateAll()" class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-3.5 rounded-xl border border-emerald-100 text-xs text-slate-600 space-y-1">
+                        <p class="font-bold text-slate-800 flex items-center gap-1.5">
+                            <i data-lucide="search" class="w-4 h-4 text-emerald-600"></i>
+                            구체적 증거를 찾기 위한 질문:
+                        </p>
+                        <p>단순히 "공원이 많다", "교통이 좋다"라고만 쓰면 구체적 증거가 부족해요! <strong>"전체 면적의 몇 %가 녹지인지?", "어떤 특별한 교통 정책이나 제도가 있는지?", "범죄율이나 대기질 수치가 어떠한지?"</strong> 뉴스 기사나 백과사전에서 객관적인 사실·수치·정책 사례를 찾아 적어보세요.</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">
+                            ③ 살기 좋은 이유를 뒷받침하는 구체적인 증거 (수치·정책·사례 등) <span class="text-rose-500">*</span>
+                        </label>
+                        <textarea id="q1-evidence" rows="3" placeholder="조사한 통계 수치, 도시 정책 이름, 실제 운영 사례 등 객관적인 뒷받침 근거를 기록해 보세요." oninput="updateAll()" class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none"></textarea>
+                    </div>
+                </div>
+
+                <!-- Step 1-3: 나의 삶과 연결하여 상상하기 -->
+                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                    <div class="flex items-center gap-2 text-emerald-700 font-bold text-sm">
+                        <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs">3</span>
+                        <span>내가 이 도시에 산다면 어떨지 상상해 보기</span>
+                    </div>
+                    <div class="bg-white p-3.5 rounded-xl border border-emerald-100 text-xs text-slate-600 space-y-1">
+                        <p class="font-bold text-slate-800 flex items-center gap-1.5">
+                            <i data-lucide="sparkles" class="w-4 h-4 text-emerald-600"></i>
+                            생각을 넓히는 질문:
+                        </p>
+                        <p>만약 내가 중학생으로서 지금 이 도시에 이사 가서 학교를 다닌다면, <strong>아침 등굣길, 방과 후 여가 시간, 주말 가족 생활</strong>이 지금과 어떻게 달라질까요? 위에서 찾은 장점과 연결해 구체적으로 그려보세요.</p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">
+                            ④ 내가 이 도시에 산다면 어떨지에 대한 나의 생각 <span class="text-rose-500">*</span>
+                        </label>
+                        <textarea id="q1-imagine" rows="3" placeholder="이 도시의 특징이 나의 일상생활에 어떤 즐거움이나 편리함을 줄지 구체적으로 서술해 보세요." oninput="updateAll()" class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none"></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================================================================= -->
+            <!-- [탭 2] 세계에서 살기 힘든 도시 조사하기 (5점) -->
+            <!-- ================================================================= -->
+            <section id="panel-2" class="tab-panel hidden bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6 space-y-6">
+                <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl">
+                    <div class="flex justify-between items-start gap-2">
+                        <h3 class="font-bold text-amber-950 text-base sm:text-lg">
+                            [문항 2] 세계에서 살기 힘든 도시 조사하기 [5점]
+                        </h3>
+                        <span class="text-xs font-bold bg-amber-200 text-amber-900 px-2.5 py-1 rounded-lg whitespace-nowrap">탐구 3단계</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-amber-800 mt-1">
+                        세계 도시 문제 지표를 탐색하고, 심각한 도시 문제를 겪고 있는 도시 한 곳을 선정하여 <strong>① 나라·도시명, ② 살기 힘든 이유, ③ 구체적 증거, ④ 내가 산다면 어떨지</strong>를 정리해 봅시다.
+                    </p>
+                </div>
+
+                <!-- Step 2-1: 세계 순위 지표 탐색 -->
+                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                    <div class="flex items-center gap-2 text-amber-700 font-bold text-sm">
+                        <span class="w-6 h-6 rounded-full bg-amber-600 text-white flex items-center justify-center text-xs">1</span>
+                        <span>살기 힘든 도시 관련 세계 지표 탐색하기</span>
+                    </div>
+                    <div class="bg-white p-3.5 rounded-xl border border-amber-100 text-xs text-slate-600 space-y-1.5">
+                        <p class="font-bold text-slate-800 flex items-center gap-1.5">
+                            <i data-lucide="help-circle" class="w-4 h-4 text-amber-600"></i>
+                            스스로에게 던지는 탐구 질문:
+                        </p>
+                        <ul class="list-disc list-inside space-y-1 text-slate-600">
+                            <li>세계에서 살기 힘든 도시 순위, 대기오염(초미세먼지) 도시 순위, 교통 혼잡도 순위, 치안/범죄율 순위, 주거 빈곤율 순위 등 어떤 지표를 찾아볼 수 있을까요?</li>
+                            <li>그 순위에서 <strong>"도대체 왜 이런 심각한 도시 문제가 생겼을까?"</strong> 하고 원인이 궁금해진 도시는 어디인가요?</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">
+                            내가 참고한 세계 순위 지표 이름과 순위 정보 <span class="text-rose-500">*</span>
+                        </label>
+                        <input type="text" id="q2-index" placeholder="어떤 기관의 무슨 순위 지표를 찾았나요? (예: IQAir 세계 대기질 보고서 오염 도시 ○위, EIU 살기 힘든 도시 하위권 등)" oninput="updateAll()" class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-amber-500 outline-none">
+                    </div>
+                </div>
+
+                <!-- Step 2-2: 도시 선정 및 이유·증거 조사 -->
+                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+                    <div class="flex items-center gap-2 text-amber-700 font-bold text-sm">
+                        <span class="w-6 h-6 rounded-full bg-amber-600 text-white flex items-center justify-center text-xs">2</span>
+                        <span>호기심 도시 선정 및 살기 힘든 이유·구체적 증거 탐구</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">
+                                ① 선정한 나라 이름과 도시 이름 <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="text" id="q2-city" placeholder="나라 이름과 도시 이름을 함께 적으세요" oninput="updateAll()" class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-amber-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">
+                                ② 이 도시가 살기 힘든 핵심 이유 <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="text" id="q2-reason" placeholder="대기오염, 교통체증, 주거부족, 치안불안, 물부족 등 핵심 문제" oninput="updateAll()" class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-amber-500 outline-none">
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-3.5 rounded-xl border border-amber-100 text-xs text-slate-600 space-y-1">
+                        <p class="font-bold text-slate-800 flex items-center gap-1.5">
+                            <i data-lucide="search" class="w-4 h-4 text-amber-600"></i>
+                            구체적 증거를 찾기 위한 질문:
+                        </p>
+                        <p>그 도시의 문제가 얼마나 심각한지 보여주는 <strong>객관적인 증거</strong>는 무엇인가요? (예: WHO 권고 기준의 몇 배에 달하는 오염 수치, 출퇴근 평균 소요 시간, 빈민가 거주 인구 비율, 실제 뉴스에 보도된 사건·현상 등)</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">
+                            ③ 살기 힘든 이유를 뒷받침하는 구체적인 증거 (수치·현상·보도 내용) <span class="text-rose-500">*</span>
+                        </label>
+                        <textarea id="q2-evidence" rows="3" placeholder="조사한 통계 수치, 환경·사회적 현상, 뉴스 보도 사례 등 구체적인 증거를 기록해 보세요." oninput="updateAll()" class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-amber-500 outline-none"></textarea>
+                    </div>
+                </div>
+
+                <!-- Step 2-3: 나의 삶과 연결하여 상상하기 -->
+                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                    <div class="flex items-center gap-2 text-amber-700 font-bold text-sm">
+                        <span class="w-6 h-6 rounded-full bg-amber-600 text-white flex items-center justify-center text-xs">3</span>
+                        <span>내가 이 도시에 산다면 어떨지 상상해 보기</span>
+                    </div>
+                    <div class="bg-white p-3.5 rounded-xl border border-amber-100 text-xs text-slate-600 space-y-1">
+                        <p class="font-bold text-slate-800 flex items-center gap-1.5">
+                            <i data-lucide="sparkles" class="w-4 h-4 text-amber-600"></i>
+                            생각을 넓히는 질문:
+                        </p>
+                        <p>만약 내가 이 도시의 주민이라면 <strong>건강, 통학, 안전, 여가 생활</strong>에서 어떤 구체적인 어려움과 불편을 겪게 될까요? 감정적인 느낌뿐만 아니라 생활 속 구체적 상황을 떠올려 보세요.</p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">
+                            ④ 내가 이 도시에 산다면 어떨지에 대한 나의 생각 <span class="text-rose-500">*</span>
+                        </label>
+                        <textarea id="q2-imagine" rows="3" placeholder="이 도시의 문제가 나의 건강, 이동, 학업, 안전에 어떤 불편과 위험을 줄지 구체적으로 적어보세요." oninput="updateAll()" class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-amber-500 outline-none"></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================================================================= -->
+            <!-- [탭 3] 내가 사는 도시 분석하기 (5점) - 그림/사진/신문자료 증거 첨부 -->
+            <!-- ================================================================= -->
+            <section id="panel-3" class="tab-panel hidden bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6 space-y-6">
+                <div class="bg-sky-50 border-l-4 border-sky-500 p-4 rounded-r-xl">
+                    <div class="flex justify-between items-start gap-2">
+                        <h3 class="font-bold text-sky-950 text-base sm:text-lg">
+                            [문항 3] 내가 사는 도시 분석하기 [5점]
+                        </h3>
+                        <span class="text-xs font-bold bg-sky-200 text-sky-900 px-2.5 py-1 rounded-lg whitespace-nowrap">증거자료 + 생활영향</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-sky-800 mt-1">
+                        내가 거주하는 도시의 <strong>장점(살기 좋은 이유 1가지)</strong>과 <strong>단점(살기 힘든 이유 1가지)</strong>을 뒷받침할 수 있는 <strong>사진·그림·신문 자료 등 증거</strong>를 찾아 정리하고, 각각이 <strong>나의 삶에 미치는 영향</strong>을 구체적으로 설명해 봅시다.
+                    </p>
+                </div>
+
+                <!-- 거주 도시명 입력 -->
+                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">
+                        내가 현재 거주하고 있는 도시(지역) 이름
+                    </label>
+                    <input type="text" id="q3-mycity" placeholder="예: 경기도 양평군 / 서울특별시 ○○구 / ○○시" oninput="updateAll()" class="w-full px-3.5 py-2 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+                </div>
+
+                <!-- Part A: 우리 도시의 장점 (살기 좋은 이유 + 증거자료 + 나의 삶에 미치는 영향) -->
+                <div class="p-4 sm:p-5 rounded-2xl bg-indigo-50/40 border border-indigo-200 space-y-4">
+                    <h4 class="font-bold text-indigo-900 text-sm sm:text-base flex items-center gap-2">
+                        <i data-lucide="thumbs-up" class="w-5 h-5 text-indigo-600"></i>
+                        Part A. 우리 도시가 살기 좋은 이유 (1가지) & 증거 자료
+                    </h4>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">
+                            ① 내가 사는 도시가 살기 좋은 이유 (1가지) <span class="text-rose-500">*</span>
+                        </label>
+                        <input type="text" id="q3-good-reason" placeholder="우리 동네나 도시에서 가장 자랑할 만한 장점은 무엇인가요?" oninput="updateAll()" class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+
+                    <!-- 장점 증거 자료 첨부 (사진/그림/신문기사) -->
+                    <div class="bg-white p-4 rounded-xl border border-indigo-100 space-y-3">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <span class="text-xs font-bold text-indigo-800 flex items-center gap-1.5">
+                                <i data-lucide="image" class="w-4 h-4"></i>
+                                장점을 보여주는 증거 자료 (직접 찍은 사진, 지도 캡처, 신문 기사 자료 등)
+                            </span>
+                            <label class="cursor-pointer px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-lg transition inline-flex items-center gap-1.5 self-start">
+                                <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+                                사진/신문스크랩 첨부
+                                <input type="file" accept="image/*" onchange="handleImageUpload(event, 'good')" class="hidden">
+                            </label>
+                        </div>
+
+                        <!-- 이미지 미리보기 영역 -->
+                        <div id="good-img-preview-box" class="hidden relative rounded-xl overflow-hidden border border-slate-200 bg-slate-100 p-2">
+                            <img id="good-img-preview" src="" alt="장점 증거 자료" class="max-h-56 mx-auto rounded-lg object-contain">
+                            <button onclick="removeImage('good')" class="mt-2 text-xs text-rose-600 hover:underline flex items-center gap-1 mx-auto">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> 첨부 이미지 삭제
+                            </button>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">
+                                증거 자료 설명 및 출처 (어떤 사진/신문 기사인지 구체적으로 기록) <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="text" id="q3-good-evidence" placeholder="예: [사진] 집 앞 ○○생태공원 산책로 사진 / 또는 [신문기사] ○○일보(2026.05.10) '○○시 청소년 도서관 확충' 기사 내용 요약" oninput="updateAll()" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-indigo-500 outline-none">
+                        </div>
+                    </div>
+
+                    <!-- 나의 삶에 미치는 영향 질문 -->
+                    <div class="bg-white p-3.5 rounded-xl border border-indigo-100 text-xs text-slate-600 space-y-1">
+                        <p class="font-bold text-slate-800 flex items-center gap-1.5">
+                            <i data-lucide="message-circle-question" class="w-4 h-4 text-indigo-600"></i>
+                            나의 삶과 연결하는 질문:
+                        </p>
+                        <p>위 증거 자료에서 확인한 우리 도시의 장점이 <strong>실제 나의 하루 일과(등하교, 공부, 건강, 가족과의 시간, 안전 등)</strong>에 구체적으로 어떤 도움을 주고 있나요? "좋다"로 끝내지 말고 내 생활의 변화를 적어보세요.</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">
+                            ② 이 장점이 나의 생활에 미치는 구체적인 영향 <span class="text-rose-500">*</span>
+                        </label>
+                        <textarea id="q3-good-impact" rows="3" placeholder="이 장점 덕분에 나의 일상생활이 어떻게 편리하거나 안전하고 행복한지 구체적인 경험을 담아 설명해 보세요." oninput="updateAll()" class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                    </div>
+                </div>
+
+                <!-- Part B: 우리 도시의 단점 (살기 힘든 이유 + 증거자료 + 나의 삶에 미치는 영향) -->
+                <div class="p-4 sm:p-5 rounded-2xl bg-rose-50/40 border border-rose-200 space-y-4">
+                    <h4 class="font-bold text-rose-900 text-sm sm:text-base flex items-center gap-2">
+                        <i data-lucide="thumbs-down" class="w-5 h-5 text-rose-600"></i>
+                        Part B. 우리 도시가 살기 힘든 이유 (1가지) & 증거 자료
+                    </h4>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">
+                            ③ 내가 사는 도시가 살기 힘든 이유 (1가지) <span class="text-rose-500">*</span>
+                        </label>
+                        <input type="text" id="q3-bad-reason" placeholder="우리 도시에서 개선이 필요하다고 느끼는 문제점은 무엇인가요?" oninput="updateAll()" class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-rose-500 outline-none">
+                    </div>
+
+                    <!-- 단점 증거 자료 첨부 (사진/그림/신문기사) -->
+                    <div class="bg-white p-4 rounded-xl border border-rose-100 space-y-3">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <span class="text-xs font-bold text-rose-800 flex items-center gap-1.5">
+                                <i data-lucide="newspaper" class="w-4 h-4"></i>
+                                단점을 보여주는 증거 자료 (현장 사진, 통계 그래프, 지역 신문 보도 등)
+                            </span>
+                            <label class="cursor-pointer px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold rounded-lg transition inline-flex items-center gap-1.5 self-start">
+                                <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+                                사진/신문스크랩 첨부
+                                <input type="file" accept="image/*" onchange="handleImageUpload(event, 'bad')" class="hidden">
+                            </label>
+                        </div>
+
+                        <!-- 이미지 미리보기 영역 -->
+                        <div id="bad-img-preview-box" class="hidden relative rounded-xl overflow-hidden border border-slate-200 bg-slate-100 p-2">
+                            <img id="bad-img-preview" src="" alt="단점 증거 자료" class="max-h-56 mx-auto rounded-lg object-contain">
+                            <button onclick="removeImage('bad')" class="mt-2 text-xs text-rose-600 hover:underline flex items-center gap-1 mx-auto">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> 첨부 이미지 삭제
+                            </button>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">
+                                증거 자료 설명 및 출처 (어떤 사진/신문 기사인지 구체적으로 기록) <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="text" id="q3-bad-evidence" placeholder="예: [신문기사] 지역신문(2026.08.15) '출퇴근 시간대 ○○도로 상습 정체 및 버스 배차 간격 문제' 보도 요약" oninput="updateAll()" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-rose-500 outline-none">
+                        </div>
+                    </div>
+
+                    <!-- 나의 삶에 미치는 영향 질문 -->
+                    <div class="bg-white p-3.5 rounded-xl border border-rose-100 text-xs text-slate-600 space-y-1">
+                        <p class="font-bold text-slate-800 flex items-center gap-1.5">
+                            <i data-lucide="message-circle-question" class="w-4 h-4 text-rose-600"></i>
+                            나의 삶과 연결하는 질문:
+                        </p>
+                        <p>이 도시 문제 때문에 <strong>내가 실제로 겪은 불편함, 시간 낭비, 건강·안전상의 걱정, 활동의 제약</strong>에는 어떤 것들이 있나요? 구체적인 상황과 느낌을 연결해 작성해 보세요.</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">
+                            ④ 이 단점이 나의 생활에 미치는 구체적인 영향 <span class="text-rose-500">*</span>
+                        </label>
+                        <textarea id="q3-bad-impact" rows="3" placeholder="이 문제로 인해 나의 등하교, 여가, 건강, 안전 등에 어떤 구체적인 불편이나 피해가 발생하는지 서술해 보세요." oninput="updateAll()" class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-rose-500 outline-none"></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================================================================= -->
+            <!-- [탭 4] 우리나라 도시가 살기 좋은 세계 도시가 되기 위한 조건 (10점) -->
+            <!-- ================================================================= -->
+            <section id="panel-4" class="tab-panel hidden bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6 space-y-6">
+                <div class="bg-indigo-50 border-l-4 border-indigo-600 p-4 rounded-r-xl">
+                    <div class="flex justify-between items-start gap-2">
+                        <h3 class="font-bold text-indigo-950 text-base sm:text-lg">
+                            [문항 4] 우리나라 도시가 살기 좋은 세계 도시가 되기 위한 조건 [10점]
+                        </h3>
+                        <span class="text-xs font-bold bg-indigo-200 text-indigo-900 px-2.5 py-1 rounded-lg whitespace-nowrap">근거 + 증거 탐구</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-indigo-800 mt-1">
+                        우리나라의 도시들이 세계적으로 살기 좋은 도시가 되기 위해 갖추어야 할 조건을 <strong>구체적인 증거(사례·통계)</strong>와 <strong>논리적 근거</strong>를 들어 제시해 봅시다.
+                        <br><span class="text-indigo-700 font-semibold">※ 먼저 핵심 조건 2가지를 [증거 + 근거] 구조로 깊이 있게 완성한 뒤, 수행평가 만점 기준(3가지 제시)을 위해 세 번째 조건까지 확장해 보세요!</span>
+                    </p>
+                </div>
+
+                <!-- 사고 확장 발문 박스 -->
+                <div class="p-4 rounded-2xl bg-slate-900 text-white space-y-2 text-xs">
+                    <p class="font-bold text-sky-300 flex items-center gap-1.5 text-sm">
+                        <i data-lucide="lightbulb" class="w-4 h-4"></i>
+                        설득력 있는 조건을 만들기 위한 3단계 질문
+                    </p>
+                    <ol class="list-decimal list-inside space-y-1 text-slate-200">
+                        <li><strong>[무엇을 바꿀까?]</strong> 탭 3에서 찾은 우리 도시의 문제점을 해결하려면 어떤 조건이 필요할까요?</li>
+                        <li><strong>[어떤 증거가 있을까?]</strong> 탭 1의 살기 좋은 도시 사례나 국내외 성공 정책, 통계 자료 중 뒷받침할 증거는 무엇인가요?</li>
+                        <li><strong>[왜 그렇게 생각할까?]</strong> 그 조건이 갖추어졌을 때 시민들의 삶이 어떻게 달라질지 논리적인 근거를 설명할 수 있나요?</li>
+                    </ol>
+                </div>
+
+                <!-- 조건 1 (필수 핵심 1) -->
+                <div class="p-4 sm:p-5 rounded-2xl border-2 border-indigo-200 bg-indigo-50/20 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-extrabold text-indigo-900 text-sm sm:text-base">
+                            핵심 조건 1. 첫 번째로 갖추어야 할 조건
+                        </h4>
+                        <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-indigo-600 text-white">필수 1</span>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">
+                            ① 제안하는 조건 한 문장 요약 <span class="text-rose-500">*</span>
+                        </label>
+                        <input type="text" id="q4-c1-title" placeholder="예: 도심 속 생활권 녹지 및 생태 공원 비율 확대 (또는 친환경 대중교통 인프라 확충 등)" oninput="updateAll()" class="w-full px-3.5 py-2 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">
+                            ② 이 조건의 필요성을 뒷받침하는 구체적 증거 (해외 도시 사례, 국내 통계, 기사 등) <span class="text-rose-500">*</span>
+                        </label>
+                        <textarea id="q4-c1-evidence" rows="2" placeholder="조사한 해외 도시 정책 사례나 우리나라 도시의 현황 통계 등 객관적 증거를 찾아 적어보세요." oninput="updateAll()" class="w-full px-3.5 py-2 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">
+                            ③ 그렇게 생각한 이유 (논리적 근거 및 기대 효과) <span class="text-rose-500">*</span>
+                        </label>
+                        <textarea id="q4-c1-reason" rows="2" placeholder="왜 이 조건이 우리나라 도시를 살기 좋게 만드는지, 시민의 삶에 어떤 긍정적 변화를 가져올지 근거를 설명하세요." oninput="updateAll()" class="w-full px-3.5 py-2 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                    </div>
+                </div>
+
+                <!-- 조건 2 (필수 핵심 2) -->
+                <div class="p-4 sm:p-5 rounded-2xl border-2 border-indigo-200 bg-indigo-50/20 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-extrabold text-indigo-900 text-sm sm:text-base">
+                            핵심 조건 2. 두 번째로 갖추어야 할 조건
+                        </h4>
+                        <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-indigo-600 text-white">필수 2</span>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">
+                            ① 제안하는 조건 한 문장 요약 <span class="text-rose-500">*</span>
+                        </label>
+                        <input type="text" id="q4-c2-title" placeholder="조건 1과 다른 분야(교통, 주거, 안전, 문화·복지 등)에서 두 번째 조건을 제안해 보세요." oninput="updateAll()" class="w-full px-3.5 py-2 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">
+                            ② 이 조건의 필요성을 뒷받침하는 구체적 증거 (해외 도시 사례, 국내 통계, 기사 등) <span class="text-rose-500">*</span>
+                        </label>
+                        <textarea id="q4-c2-evidence" rows="2" placeholder="조사한 사례, 통계 자료, 문제 해결 사례 등 뒷받침할 수 있는 증거를 기록해 보세요." oninput="updateAll()" class="w-full px-3.5 py-2 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">
+                            ③ 그렇게 생각한 이유 (논리적 근거 및 기대 효과) <span class="text-rose-500">*</span>
+                        </label>
+                        <textarea id="q4-c2-reason" rows="2" placeholder="이 조건이 실현될 때 어떤 도시 문제가 해결되고 왜 세계적인 도시로 발돋움할 수 있는지 근거를 적어보세요." oninput="updateAll()" class="w-full px-3.5 py-2 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                    </div>
+                </div>
+
+                <!-- 조건 3 (수행평가 채점기준 10점 만점 완성용 추가 조건) -->
+                <div class="p-4 sm:p-5 rounded-2xl border border-slate-300 bg-slate-50 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-slate-800 text-sm sm:text-base">
+                            추가 조건 3. 세 번째로 갖추어야 할 조건 (수행평가 만점 완성용)
+                        </h4>
+                        <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-600 text-white">만점(10점) 완성</span>
+                    </div>
+                    <p class="text-xs text-slate-600">
+                        수행평가 채점기준표에서 문항 [4]의 만점(10점) 기준은 <strong>'구체적으로 세 가지 제시함'</strong>입니다. 위 2가지를 완성한 뒤 세 번째 조건도 증거와 근거를 담아 완성해 보세요!
+                    </p>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">
+                            세 번째 조건 + 구체적 증거 및 근거
+                        </label>
+                        <textarea id="q4-c3-full" rows="3" placeholder="세 번째 조건과 그에 대한 구체적인 증거 및 그렇게 생각한 근거를 함께 작성해 보세요." oninput="updateAll()" class="w-full px-3.5 py-2 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI 활용 유의사항 및 자료 출처 기록 노트 -->
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6">
+                <div class="flex items-start justify-between gap-2 mb-3">
+                    <div>
+                        <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                            <i data-lucide="shield-check" class="w-5 h-5 text-indigo-600"></i>
+                            탐구 출처 및 AI 활용 기록부 (수행평가 필수 규정)
+                        </h3>
+                        <p class="text-xs text-slate-500 mt-1">
+                            인터넷 기사, 통계 지표, AI 검색 등을 활용했다면 아래에 출처와 질문 기록을 남겨야 부정행위로 오해받지 않습니다.
+                        </p>
+                    </div>
+                    <button onclick="addSourceRow()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1 whitespace-nowrap">
+                        <i data-lucide="plus" class="w-3.5 h-3.5"></i> 기록 추가
+                    </button>
+                </div>
+
+                <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 mb-4 text-xs text-amber-900 space-y-1">
+                    <p class="font-bold">📌 AI 및 디지털 도구 활용 시 지켜야 할 약속:</p>
+                    <ul class="list-disc list-inside space-y-0.5 text-amber-800">
+                        <li>AI가 생성한 문장을 그대로 베껴 적는 행위는 금지됩니다. (내 생각과 언어로 재구성하기)</li>
+                        <li>AI를 참고한 경우 <strong>사용한 AI 종류, 입력한 질문 내용, 참고 출처</strong>를 반드시 표기하세요.</li>
+                    </ul>
+                </div>
+
+                <div id="source-list" class="space-y-2.5"></div>
+            </section>
+
+        </div>
+
+        <!-- 오른쪽: 실시간 탐구 진행도 & 채점 루브릭 자가진단 (4컬럼) -->
+        <div class="lg:col-span-4 space-y-6">
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sticky top-6 no-print">
+                <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                    <h2 class="font-bold text-slate-800 flex items-center gap-2">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600"></i>
+                        채점기준 자가 점검표
+                    </h2>
+                    <span class="text-xs text-slate-400">자동 분석</span>
+                </div>
+
+                <!-- 예상 점수 카드 -->
+                <div class="my-4 p-4 rounded-2xl bg-gradient-to-br from-slate-900 to-indigo-950 text-white">
+                    <div class="flex justify-between items-end mb-2">
+                        <span class="text-xs text-indigo-200 font-medium">현재 채점기준 충족 예상 점수</span>
+                        <div>
+                            <span id="total-score" class="text-3xl font-black text-sky-400">10</span>
+                            <span class="text-sm text-slate-300 font-bold">/ 25점</span>
+                        </div>
+                    </div>
+                    <div class="w-full bg-white/15 rounded-full h-2.5 overflow-hidden">
+                        <div id="score-bar" class="bg-gradient-to-r from-sky-400 to-emerald-400 h-2.5 rounded-full transition-all duration-300" style="width: 5%"></div>
+                    </div>
+                    <p id="score-comment" class="text-xs text-indigo-200 mt-2.5 leading-relaxed">
+                        탭 1부터 차례대로 질문을 읽고 나만의 조사 내용을 채워보세요!
+                    </p>
+                </div>
+
+                <!-- 문항별 충족 현황 -->
+                <div class="space-y-2.5 text-xs">
+                    <div onclick="switchTab(1)" class="cursor-pointer p-3 rounded-xl bg-slate-50 hover:bg-emerald-50/50 border border-slate-200 flex items-center justify-between transition">
+                        <div>
+                            <p class="font-bold text-slate-700">탭 1. 살기 좋은 도시 (5점)</p>
+                            <p id="rubric-desc-1" class="text-slate-500 mt-0.5">지표+도시/나라+이유+증거+상상 (0/5)</p>
+                        </div>
+                        <span id="rubric-score-1" class="font-black text-sm px-2.5 py-1 rounded-lg bg-slate-200 text-slate-700">1점</span>
+                    </div>
+
+                    <div onclick="switchTab(2)" class="cursor-pointer p-3 rounded-xl bg-slate-50 hover:bg-amber-50/50 border border-slate-200 flex items-center justify-between transition">
+                        <div>
+                            <p class="font-bold text-slate-700">탭 2. 살기 힘든 도시 (5점)</p>
+                            <p id="rubric-desc-2" class="text-slate-500 mt-0.5">지표+도시/나라+이유+증거+상상 (0/5)</p>
+                        </div>
+                        <span id="rubric-score-2" class="font-black text-sm px-2.5 py-1 rounded-lg bg-slate-200 text-slate-700">1점</span>
+                    </div>
+
+                    <div onclick="switchTab(3)" class="cursor-pointer p-3 rounded-xl bg-slate-50 hover:bg-sky-50/50 border border-slate-200 flex items-center justify-between transition">
+                        <div>
+                            <p class="font-bold text-slate-700">탭 3. 내가 사는 도시 (5점)</p>
+                            <p id="rubric-desc-3" class="text-slate-500 mt-0.5">장단점 이유 + 증거자료 + 생활영향 (0/6)</p>
+                        </div>
+                        <span id="rubric-score-3" class="font-black text-sm px-2.5 py-1 rounded-lg bg-slate-200 text-slate-700">1점</span>
+                    </div>
+
+                    <div onclick="switchTab(4)" class="cursor-pointer p-3 rounded-xl bg-slate-50 hover:bg-indigo-50/50 border border-slate-200 flex items-center justify-between transition">
+                        <div>
+                            <p class="font-bold text-slate-700">탭 4. 도시 조건 제시 (10점)</p>
+                            <p id="rubric-desc-4" class="text-slate-500 mt-0.5">핵심 조건(증거+근거) 및 확장 (0/5)</p>
+                        </div>
+                        <span id="rubric-score-4" class="font-black text-sm px-2.5 py-1 rounded-lg bg-slate-200 text-slate-700">7점</span>
+                    </div>
+                </div>
+
+                <!-- 출력 및 복사 버튼 -->
+                <div class="mt-5 pt-4 border-t border-slate-100 space-y-2.5">
+                    <button onclick="openPreviewModal()" class="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-sm transition flex items-center justify-center gap-2 text-sm">
+                        <i data-lucide="file-text" class="w-4 h-4"></i>
+                        수행평가 활동지 형태로 미리보기
+                    </button>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="copyAllText()" class="py-2.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition flex items-center justify-center gap-1.5 text-xs">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            텍스트 복사
+                        </button>
+                        <button onclick="printSheet()" class="py-2.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition flex items-center justify-center gap-1.5 text-xs">
+                            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+                            노트 인쇄 / PDF
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- 활동지 미리보기 및 인쇄 모달 -->
+    <div id="preview-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+            <div class="px-6 py-4 bg-slate-800 text-white flex items-center justify-between no-print">
+                <h3 class="font-bold flex items-center gap-2">
+                    <i data-lucide="file-check" class="w-5 h-5 text-emerald-400"></i>
+                    2026학년도 2학기 2차 사회 수행평가 정리 노트 미리보기
+                </h3>
+                <div class="flex items-center gap-2">
+                    <button onclick="printSheet()" class="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold rounded-lg flex items-center gap-1">
+                        <i data-lucide="printer" class="w-3.5 h-3.5"></i> 인쇄 / PDF 저장
+                    </button>
+                    <button onclick="closePreviewModal()" class="p-1.5 hover:bg-white/10 rounded-lg transition">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="print-area" class="p-6 sm:p-8 overflow-y-auto space-y-5 bg-white text-slate-900">
+                <div class="border-2 border-slate-800 p-4 rounded-lg">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b-2 border-slate-800 pb-3">
+                        <h2 class="text-xl font-black tracking-tight">도시문제를 조사하고 비판적으로 글쓰기 [25점]</h2>
+                        <div class="text-sm font-bold border border-slate-800 px-3 py-1 rounded">
+                            3학년 (<span id="prev-class" class="px-2"> </span>)반 (<span id="prev-number" class="px-2"> </span>)번 이름: <span id="prev-name" class="px-3"> </span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-600 mt-2">
+                        ※ 본 문서는 수업 시간 수행평가(사회 노트 오픈북)를 위해 학생이 직접 조사하고 사고하여 정리한 탐구 노트입니다.
+                    </p>
+                </div>
+
+                <!-- 문항 1 출력 -->
+                <div class="border border-slate-400 rounded-lg p-4 space-y-2">
+                    <h4 class="font-bold text-xs sm:text-sm bg-slate-100 p-2 rounded">
+                        [1] 세계에서 살기 좋은 도시 한 곳을 선정하고, 나라 이름과 도시 이름, 살기 좋은 이유, 살기 좋은 이유를 뒷받침하는 구체적인 증거, 내가 이 도시에 산다면 어떨지에 대한 내용을 모두 포함하여 작성하시오. [5점]
+                    </h4>
+                    <div id="prev-q1" class="text-sm leading-relaxed whitespace-pre-line p-2 min-h-[70px] text-slate-800"></div>
+                </div>
+
+                <!-- 문항 2 출력 -->
+                <div class="border border-slate-400 rounded-lg p-4 space-y-2">
+                    <h4 class="font-bold text-xs sm:text-sm bg-slate-100 p-2 rounded">
+                        [2] 세계에서 살기 힘든 도시 한 곳을 선정하여, 나라 이름과 도시 이름, 살기 힘든 이유, 살기 힘든 이유를 뒷받침하는 구체적인 증거, 내가 이 도시에 산다면 어떨지에 대한 내용을 모두 포함하여 작성하시오. [5점]
+                    </h4>
+                    <div id="prev-q2" class="text-sm leading-relaxed whitespace-pre-line p-2 min-h-[70px] text-slate-800"></div>
+                </div>
+
+                <!-- 문항 3 출력 -->
+                <div class="border border-slate-400 rounded-lg p-4 space-y-2">
+                    <h4 class="font-bold text-xs sm:text-sm bg-slate-100 p-2 rounded">
+                        [3] 내가 거주하는 도시가 살기 좋은 이유 한 가지와 살기 힘든 이유 한 가지를 쓰고, 각각이 나의 생활에 미치는 영향을 구체적으로 설명하시오. [5점]
+                    </h4>
+                    <div id="prev-q3" class="text-sm leading-relaxed whitespace-pre-line p-2 min-h-[70px] text-slate-800"></div>
+                    <div id="prev-q3-images" class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2"></div>
+                </div>
+
+                <!-- 문항 4 출력 -->
+                <div class="border border-slate-400 rounded-lg p-4 space-y-2">
+                    <h4 class="font-bold text-xs sm:text-sm bg-slate-100 p-2 rounded">
+                        [4] 우리나라의 도시가 세계적으로 살기 좋은 도시가 되기 위해 갖추어야 할 조건에 대해 구체적으로 제시하시오. [10점]
+                    </h4>
+                    <div id="prev-q4" class="text-sm leading-relaxed whitespace-pre-line p-2 min-h-[90px] text-slate-800"></div>
+                </div>
+
+                <!-- 출처 출력 -->
+                <div class="border border-slate-400 rounded-lg p-4 space-y-2">
+                    <h4 class="font-bold text-xs bg-slate-100 p-2 rounded">
+                        [탐구 자료 출처 및 AI 활용 기록부]
+                    </h4>
+                    <div id="prev-sources" class="text-xs leading-relaxed whitespace-pre-line p-2 text-slate-700"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 초기화 확인 모달 -->
+    <div id="reset-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl space-y-4">
+            <div class="flex items-center gap-3 text-rose-600">
+                <div class="p-2.5 bg-rose-100 rounded-full">
+                    <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-bold text-lg text-slate-900">작성 내용을 초기화할까요?</h3>
+            </div>
+            <p class="text-sm text-slate-600">
+                지금까지 작성한 모든 문항 내용과 첨부한 증거 사진, 출처 기록이 삭제됩니다.
+            </p>
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="closeResetModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-sm">취소</button>
+                <button onclick="executeReset()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-sm">모두 초기화</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-slate-900 text-slate-400 py-4 text-center text-xs no-print mt-8">
+        <p>2026학년도 2학기 2차 사회 수행평가 자기주도 탐구 워크북 | 모든 기록은 브라우저에 자동 저장됩니다.</p>
+    </footer>
+
+    <script>
+        const STORAGE_KEY = 'social_eval_inquiry_2026_v2';
+
+        let sources = [{ tool: '', query: '', url: '' }];
+        let uploadedImages = { good: '', bad: '' };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            loadFromLocalStorage();
+            renderSources();
+            updateAll();
+        });
+
+        // 토스트 알림
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const colors = {
+                info: 'bg-slate-800 text-white border-slate-700',
+                success: 'bg-emerald-600 text-white border-emerald-500',
+                warning: 'bg-amber-600 text-white border-amber-500'
+            };
+            toast.className = `px-4 py-3 rounded-xl shadow-lg border text-sm font-medium flex items-center gap-2 transition-all duration-300 ${colors[type] || colors.info}`;
+            toast.innerHTML = `<span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', '-translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 2800);
+        }
+
+        // 탭 전환
+        function switchTab(tabIndex) {
+            document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.add('hidden'));
+            document.getElementById(`panel-${tabIndex}`).classList.remove('hidden');
+
+            document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
+                const num = idx + 1;
+                const badge = document.getElementById(`badge-${num}`);
+                if (num === tabIndex) {
+                    btn.className = 'tab-btn py-3 px-3 rounded-xl font-bold text-xs sm:text-sm transition flex flex-col items-center justify-center gap-1 bg-indigo-600 text-white shadow-md';
+                    badge.className = 'text-[11px] px-2 py-0.5 rounded-full bg-white/25 text-white';
+                } else {
+                    btn.className = 'tab-btn py-3 px-3 rounded-xl font-bold text-xs sm:text-sm transition flex flex-col items-center justify-center gap-1 bg-white text-slate-600 border border-slate-200 hover:bg-slate-50';
+                    badge.className = 'text-[11px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600';
+                }
+            });
+        }
+
+        // 이미지 첨부 처리 (리사이징 압축하여 로컬스토리지 용량 보호)
+        function handleImageUpload(event, type) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const maxDim = 600;
+                    let w = img.width;
+                    let h = img.height;
+                    if (w > maxDim || h > maxDim) {
+                        if (w > h) {
+                            h = Math.round((h * maxDim) / w);
+                            w = maxDim;
+                        } else {
+                            w = Math.round((w * maxDim) / h);
+                            h = maxDim;
+                        }
+                    }
+                    canvas.width = w;
+                    canvas.height = h;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, w, h);
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.75);
+
+                    uploadedImages[type] = compressedDataUrl;
+                    applyImagePreview(type, compressedDataUrl);
+                    updateAll();
+                    showToast('증거 자료 이미지가 첨부되었습니다!', 'success');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function applyImagePreview(type, dataUrl) {
+            const box = document.getElementById(`${type}-img-preview-box`);
+            const img = document.getElementById(`${type}-img-preview`);
+            if (dataUrl) {
+                img.src = dataUrl;
+                box.classList.remove('hidden');
+            } else {
+                img.src = '';
+                box.classList.add('hidden');
+            }
+        }
+
+        function removeImage(type) {
+            uploadedImages[type] = '';
+            applyImagePreview(type, '');
+            updateAll();
+            showToast('첨부 이미지가 삭제되었습니다.', 'info');
+        }
+
+        // 출처 행 관리
+        function renderSources() {
+            const list = document.getElementById('source-list');
+            list.innerHTML = '';
+            sources.forEach((item, index) => {
+                const row = document.createElement('div');
+                row.className = 'grid grid-cols-1 sm:grid-cols-12 gap-2 p-3 bg-slate-50 rounded-xl border border-slate-200 items-center';
+                row.innerHTML = `
+                    <div class="sm:col-span-3">
+                        <input type="text" value="${escapeHtml(item.tool)}" oninput="updateSource(${index}, 'tool', this.value)" placeholder="도구/AI/기관명" class="w-full px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-xs outline-none focus:border-indigo-500">
+                    </div>
+                    <div class="sm:col-span-4">
+                        <input type="text" value="${escapeHtml(item.query)}" oninput="updateSource(${index}, 'query', this.value)" placeholder="검색 키워드 또는 AI 질문 내용" class="w-full px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-xs outline-none focus:border-indigo-500">
+                    </div>
+                    <div class="sm:col-span-4">
+                        <input type="text" value="${escapeHtml(item.url)}" oninput="updateSource(${index}, 'url', this.value)" placeholder="출처 표기 (지표명, 신문사, 날짜 등)" class="w-full px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-xs outline-none focus:border-indigo-500">
+                    </div>
+                    <div class="sm:col-span-1 flex justify-end">
+                        <button onclick="removeSourceRow(${index})" class="p-1.5 text-slate-400 hover:text-rose-500 transition" title="삭제">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                `;
+                list.appendChild(row);
+            });
+            lucide.createIcons();
+        }
+
+        function addSourceRow() {
+            sources.push({ tool: '', query: '', url: '' });
+            renderSources();
+            saveToLocalStorage();
+        }
+
+        function removeSourceRow(index) {
+            if (sources.length === 1) {
+                sources[0] = { tool: '', query: '', url: '' };
+            } else {
+                sources.splice(index, 1);
+            }
+            renderSources();
+            saveToLocalStorage();
+        }
+
+        function updateSource(index, field, value) {
+            sources[index][field] = value;
+            saveToLocalStorage();
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+        }
+
+        function isFilled(id, minLen = 2) {
+            const el = document.getElementById(id);
+            return el && el.value.trim().length >= minLen;
+        }
+
+        // 실시간 채점 기준 및 진행률 계산
+        function updateAll() {
+            // 탭 1 (탐구 단계 5개 / 채점 4요소)
+            const q1IndexOk = isFilled('q1-index', 3);
+            const q1Core = [
+                isFilled('q1-city', 2),
+                isFilled('q1-reason', 4),
+                isFilled('q1-evidence', 10),
+                isFilled('q1-imagine', 10)
+            ];
+            const q1CoreCount = q1Core.filter(Boolean).length;
+            const q1StepCount = q1CoreCount + (q1IndexOk ? 1 : 0);
+            const q1Score = q1CoreCount + 1;
+
+            // 탭 2 (탐구 단계 5개 / 채점 4요소)
+            const q2IndexOk = isFilled('q2-index', 3);
+            const q2Core = [
+                isFilled('q2-city', 2),
+                isFilled('q2-reason', 4),
+                isFilled('q2-evidence', 10),
+                isFilled('q2-imagine', 10)
+            ];
+            const q2CoreCount = q2Core.filter(Boolean).length;
+            const q2StepCount = q2CoreCount + (q2IndexOk ? 1 : 0);
+            const q2Score = q2CoreCount + 1;
+
+            // 탭 3 (탐구 6단계: 장점이유, 장점증거(사진또는텍스트), 장점영향, 단점이유, 단점증거(사진또는텍스트), 단점영향)
+            const q3GoodEv = isFilled('q3-good-evidence', 4) || Boolean(uploadedImages.good);
+            const q3BadEv = isFilled('q3-bad-evidence', 4) || Boolean(uploadedImages.bad);
+            const q3Core = [
+                isFilled('q3-good-reason', 4),
+                isFilled('q3-good-impact', 10),
+                isFilled('q3-bad-reason', 4),
+                isFilled('q3-bad-impact', 10)
+            ];
+            const q3CoreCount = q3Core.filter(Boolean).length;
+            const q3StepCount = q3CoreCount + (q3GoodEv ? 1 : 0) + (q3BadEv ? 1 : 0);
+            const q3Score = q3CoreCount + 1;
+
+            // 탭 4 (조건 1 [제목+증거+근거], 조건 2 [제목+증거+근거], 조건 3 [확장])
+            const cond1Complete = isFilled('q4-c1-title', 3) && isFilled('q4-c1-evidence', 6) && isFilled('q4-c1-reason', 6);
+            const cond2Complete = isFilled('q4-c2-title', 3) && isFilled('q4-c2-evidence', 6) && isFilled('q4-c2-reason', 6);
+            const cond3Complete = isFilled('q4-c3-full', 12);
+
+            const q4StepCount = [
+                isFilled('q4-c1-title', 3),
+                isFilled('q4-c1-evidence', 6) && isFilled('q4-c1-reason', 6),
+                isFilled('q4-c2-title', 3),
+                isFilled('q4-c2-evidence', 6) && isFilled('q4-c2-reason', 6),
+                cond3Complete
+            ].filter(Boolean).length;
+
+            const validCondCount = [cond1Complete, cond2Complete, cond3Complete].filter(Boolean).length;
+            const q4Score = validCondCount + 7; // 0개=7점, 1개=8점, 2개=9점, 3개=10점
+
+            // 상단 탭 배지 업데이트
+            document.getElementById('badge-1').textContent = `탐구 ${q1StepCount}/5`;
+            document.getElementById('badge-2').textContent = `탐구 ${q2StepCount}/5`;
+            document.getElementById('badge-3').textContent = `탐구 ${q3StepCount}/6`;
+            document.getElementById('badge-4').textContent = `탐구 ${q4StepCount}/5`;
+
+            // 루브릭 카드 업데이트
+            updateRubricCard(1, q1StepCount, 5, q1Score, 5, '순위지표+도시/나라+이유+증거+상상');
+            updateRubricCard(2, q2StepCount, 5, q2Score, 5, '순위지표+도시/나라+이유+증거+상상');
+            updateRubricCard(3, q3StepCount, 6, q3Score, 5, '장단점 이유 + 증거자료 + 생활영향');
+            updateRubricCard(4, q4StepCount, 5, q4Score, 10, '조건 2가지(증거+근거) 및 3번째 확장');
+
+            // 총점 업데이트
+            const total = q1Score + q2Score + q3Score + q4Score;
+            document.getElementById('total-score').textContent = total;
+            const percentage = Math.round(((total - 10) / 15) * 100);
+            document.getElementById('score-bar').style.width = `${Math.max(5, percentage)}%`;
+
+            const commentEl = document.getElementById('score-comment');
+            if (total === 25) {
+                commentEl.textContent = '🎉 훌륭합니다! 스스로 조사한 지표와 증거를 바탕으로 모든 채점 기준을 충족했습니다.';
+                commentEl.className = 'text-xs text-emerald-300 font-bold mt-2.5';
+            } else if (total >= 21) {
+                commentEl.textContent = '👏 탐구가 아주 깊어지고 있어요! 탭 4의 세 번째 조건까지 마무리하면 25점 만점입니다.';
+                commentEl.className = 'text-xs text-sky-300 mt-2.5';
+            } else {
+                commentEl.textContent = '🔍 각 탭의 질문을 읽고 세계 순위 지표, 증거 자료, 나의 생활 영향을 구체적으로 채워보세요.';
+                commentEl.className = 'text-xs text-indigo-200 mt-2.5';
+            }
+
+            saveToLocalStorage();
+        }
+
+        function updateRubricCard(num, count, maxCount, score, maxScore, label) {
+            document.getElementById(`rubric-desc-${num}`).textContent = `${label} (${count}/${maxCount})`;
+            const badge = document.getElementById(`rubric-score-${num}`);
+            badge.textContent = `${score}점`;
+            if (score === maxScore) {
+                badge.className = 'font-black text-sm px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800';
+            } else if (count > 0) {
+                badge.className = 'font-black text-sm px-2.5 py-1 rounded-lg bg-indigo-100 text-indigo-800';
+            } else {
+                badge.className = 'font-black text-sm px-2.5 py-1 rounded-lg bg-slate-200 text-slate-700';
+            }
+        }
+
+        // 활동지 미리보기 채우기
+        function populatePreview() {
+            document.getElementById('prev-class').textContent = document.getElementById('student-class').value || '  ';
+            document.getElementById('prev-number').textContent = document.getElementById('student-number').value || '  ';
+            document.getElementById('prev-name').textContent = document.getElementById('student-name').value || '      ';
+
+            // Q1
+            const q1Idx = document.getElementById('q1-index').value.trim();
+            const q1City = document.getElementById('q1-city').value.trim();
+            const q1Reason = document.getElementById('q1-reason').value.trim();
+            const q1Ev = document.getElementById('q1-evidence').value.trim();
+            const q1Im = document.getElementById('q1-imagine').value.trim();
+            document.getElementById('prev-q1').textContent = (q1Idx || q1City || q1Reason || q1Ev || q1Im)
+                ? `• 참고한 세계 순위 지표: ${q1Idx || '(미작성)'}\n• 선정한 나라 및 도시: ${q1City || '(미작성)'}\n• 살기 좋은 이유: ${q1Reason || '(미작성)'}\n• 구체적인 증거: ${q1Ev || '(미작성)'}\n• 내가 이 도시에 산다면: ${q1Im || '(미작성)'}`
+                : '(아직 작성된 내용이 없습니다.)';
+
+            // Q2
+            const q2Idx = document.getElementById('q2-index').value.trim();
+            const q2City = document.getElementById('q2-city').value.trim();
+            const q2Reason = document.getElementById('q2-reason').value.trim();
+            const q2Ev = document.getElementById('q2-evidence').value.trim();
+            const q2Im = document.getElementById('q2-imagine').value.trim();
+            document.getElementById('prev-q2').textContent = (q2Idx || q2City || q2Reason || q2Ev || q2Im)
+                ? `• 참고한 세계 순위 지표: ${q2Idx || '(미작성)'}\n• 선정한 나라 및 도시: ${q2City || '(미작성)'}\n• 살기 힘든 이유: ${q2Reason || '(미작성)'}\n• 구체적인 증거: ${q2Ev || '(미작성)'}\n• 내가 이 도시에 산다면: ${q2Im || '(미작성)'}`
+                : '(아직 작성된 내용이 없습니다.)';
+
+            // Q3
+            const myCity = document.getElementById('q3-mycity').value.trim();
+            const gReason = document.getElementById('q3-good-reason').value.trim();
+            const gEv = document.getElementById('q3-good-evidence').value.trim();
+            const gImp = document.getElementById('q3-good-impact').value.trim();
+            const bReason = document.getElementById('q3-bad-reason').value.trim();
+            const bEv = document.getElementById('q3-bad-evidence').value.trim();
+            const bImp = document.getElementById('q3-bad-impact').value.trim();
+
+            document.getElementById('prev-q3').textContent = (myCity || gReason || gEv || gImp || bReason || bEv || bImp)
+                ? `[거주 도시: ${myCity || '미입력'}]\n1) 살기 좋은 이유: ${gReason || '(미작성)'}\n   - 증거 자료: ${gEv || '(미작성)'}\n   - 나의 생활에 미치는 영향: ${gImp || '(미작성)'}\n2) 살기 힘든 이유: ${bReason || '(미작성)'}\n   - 증거 자료: ${bEv || '(미작성)'}\n   - 나의 생활에 미치는 영향: ${bImp || '(미작성)'}`
+                : '(아직 작성된 내용이 없습니다.)';
+
+            // Q3 첨부 이미지 미리보기 렌더링
+            const imgBox = document.getElementById('prev-q3-images');
+            imgBox.innerHTML = '';
+            if (uploadedImages.good) {
+                imgBox.innerHTML += `<div class="border border-slate-300 rounded p-2 text-center"><p class="text-xs font-bold mb-1 text-indigo-800">[장점 증거 자료]</p><img src="${uploadedImages.good}" class="max-h-40 mx-auto object-contain rounded"></div>`;
+            }
+            if (uploadedImages.bad) {
+                imgBox.innerHTML += `<div class="border border-slate-300 rounded p-2 text-center"><p class="text-xs font-bold mb-1 text-rose-800">[단점 증거 자료]</p><img src="${uploadedImages.bad}" class="max-h-40 mx-auto object-contain rounded"></div>`;
+            }
+
+            // Q4
+            const c1T = document.getElementById('q4-c1-title').value.trim();
+            const c1E = document.getElementById('q4-c1-evidence').value.trim();
+            const c1R = document.getElementById('q4-c1-reason').value.trim();
+
+            const c2T = document.getElementById('q4-c2-title').value.trim();
+            const c2E = document.getElementById('q4-c2-evidence').value.trim();
+            const c2R = document.getElementById('q4-c2-reason').value.trim();
+
+            const c3F = document.getElementById('q4-c3-full').value.trim();
+
+            let q4Lines = [];
+            if (c1T || c1E || c1R) {
+                q4Lines.push(`첫째, ${c1T || '(조건 미작성)'}\n   - 구체적 증거: ${c1E || '(미작성)'}\n   - 그렇게 생각한 근거: ${c1R || '(미작성)'}`);
+            }
+            if (c2T || c2E || c2R) {
+                q4Lines.push(`둘째, ${c2T || '(조건 미작성)'}\n   - 구체적 증거: ${c2E || '(미작성)'}\n   - 그렇게 생각한 근거: ${c2R || '(미작성)'}`);
+            }
+            if (c3F) {
+                q4Lines.push(`셋째, ${c3F}`);
+            }
+            document.getElementById('prev-q4').textContent = q4Lines.length > 0 ? q4Lines.join('\n\n') : '(아직 작성된 내용이 없습니다.)';
+
+            // 출처
+            const validSources = sources.filter(s => s.tool || s.query || s.url);
+            document.getElementById('prev-sources').textContent = validSources.length > 0
+                ? validSources.map((s, idx) => `${idx + 1}. [도구/AI] ${s.tool || '-'} | [검색/질문] ${s.query || '-'} | [출처] ${s.url || '-'}`).join('\n')
+                : '기록된 출처 및 AI 활용 내역이 없습니다.';
+        }
+
+        function openPreviewModal() {
+            populatePreview();
+            document.getElementById('preview-modal').classList.remove('hidden');
+        }
+
+        function closePreviewModal() {
+            document.getElementById('preview-modal').classList.add('hidden');
+        }
+
+        function printSheet() {
+            populatePreview();
+            const modal = document.getElementById('preview-modal');
+            if (modal.classList.contains('hidden')) modal.classList.remove('hidden');
+            setTimeout(() => window.print(), 150);
+        }
+
+        function copyAllText() {
+            populatePreview();
+            const textToCopy = [
+                `[2026학년도 2학기 2차 사회 수행평가 탐구 노트]`,
+                `3학년 ${document.getElementById('prev-class').textContent.trim()}반 ${document.getElementById('prev-number').textContent.trim()}번 ${document.getElementById('prev-name').textContent.trim()}`,
+                `\n[1] 세계에서 살기 좋은 도시 조사하기\n${document.getElementById('prev-q1').textContent}`,
+                `\n[2] 세계에서 살기 힘든 도시 조사하기\n${document.getElementById('prev-q2').textContent}`,
+                `\n[3] 내가 사는 도시 분석하기\n${document.getElementById('prev-q3').textContent}`,
+                `\n[4] 우리나라의 도시가 살기 좋은 세계 도시가 되기 위한 조건\n${document.getElementById('prev-q4').textContent}`,
+                `\n[탐구 자료 출처 및 AI 활용 기록]\n${document.getElementById('prev-sources').textContent}`
+            ].join('\n');
+
+            const tempArea = document.createElement('textarea');
+            tempArea.value = textToCopy;
+            document.body.appendChild(tempArea);
+            tempArea.select();
+            try {
+                document.execCommand('copy');
+                showToast('탐구 노트 전체 텍스트가 복사되었습니다!', 'success');
+            } catch (err) {
+                showToast('복사에 실패했습니다. 미리보기 창에서 직접 복사해 주세요.', 'warning');
+            }
+            document.body.removeChild(tempArea);
+        }
+
+        // 로컬 스토리지 저장 및 불러오기
+        function saveToLocalStorage() {
+            const data = {
+                studentClass: document.getElementById('student-class').value,
+                studentNumber: document.getElementById('student-number').value,
+                studentName: document.getElementById('student-name').value,
+                q1Index: document.getElementById('q1-index').value,
+                q1City: document.getElementById('q1-city').value,
+                q1Reason: document.getElementById('q1-reason').value,
+                q1Evidence: document.getElementById('q1-evidence').value,
+                q1Imagine: document.getElementById('q1-imagine').value,
+                q2Index: document.getElementById('q2-index').value,
+                q2City: document.getElementById('q2-city').value,
+                q2Reason: document.getElementById('q2-reason').value,
+                q2Evidence: document.getElementById('q2-evidence').value,
+                q2Imagine: document.getElementById('q2-imagine').value,
+                q3Mycity: document.getElementById('q3-mycity').value,
+                q3GoodReason: document.getElementById('q3-good-reason').value,
+                q3GoodEvidence: document.getElementById('q3-good-evidence').value,
+                q3GoodImpact: document.getElementById('q3-good-impact').value,
+                q3BadReason: document.getElementById('q3-bad-reason').value,
+                q3BadEvidence: document.getElementById('q3-bad-evidence').value,
+                q3BadImpact: document.getElementById('q3-bad-impact').value,
+                q4C1Title: document.getElementById('q4-c1-title').value,
+                q4C1Evidence: document.getElementById('q4-c1-evidence').value,
+                q4C1Reason: document.getElementById('q4-c1-reason').value,
+                q4C2Title: document.getElementById('q4-c2-title').value,
+                q4C2Evidence: document.getElementById('q4-c2-evidence').value,
+                q4C2Reason: document.getElementById('q4-c2-reason').value,
+                q4C3Full: document.getElementById('q4-c3-full').value,
+                sources: sources,
+                uploadedImages: uploadedImages
+            };
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            } catch (e) {
+                console.warn('저장 공간 한도 초과 가능성:', e);
+            }
+        }
+
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (!saved) return;
+            try {
+                const data = JSON.parse(saved);
+                document.getElementById('student-class').value = data.studentClass || '';
+                document.getElementById('student-number').value = data.studentNumber || '';
+                document.getElementById('student-name').value = data.studentName || '';
+                document.getElementById('q1-index').value = data.q1Index || '';
+                document.getElementById('q1-city').value = data.q1City || '';
+                document.getElementById('q1-reason').value = data.q1Reason || '';
+                document.getElementById('q1-evidence').value = data.q1Evidence || '';
+                document.getElementById('q1-imagine').value = data.q1Imagine || '';
+                document.getElementById('q2-index').value = data.q2Index || '';
+                document.getElementById('q2-city').value = data.q2City || '';
+                document.getElementById('q2-reason').value = data.q2Reason || '';
+                document.getElementById('q2-evidence').value = data.q2Evidence || '';
+                document.getElementById('q2-imagine').value = data.q2Imagine || '';
+                document.getElementById('q3-mycity').value = data.q3Mycity || '';
+                document.getElementById('q3-good-reason').value = data.q3GoodReason || '';
+                document.getElementById('q3-good-evidence').value = data.q3GoodEvidence || '';
+                document.getElementById('q3-good-impact').value = data.q3GoodImpact || '';
+                document.getElementById('q3-bad-reason').value = data.q3BadReason || '';
+                document.getElementById('q3-bad-evidence').value = data.q3BadEvidence || '';
+                document.getElementById('q3-bad-impact').value = data.q3BadImpact || '';
+                document.getElementById('q4-c1-title').value = data.q4C1Title || '';
+                document.getElementById('q4-c1-evidence').value = data.q4C1Evidence || '';
+                document.getElementById('q4-c1-reason').value = data.q4C1Reason || '';
+                document.getElementById('q4-c2-title').value = data.q4C2Title || '';
+                document.getElementById('q4-c2-evidence').value = data.q4C2Evidence || '';
+                document.getElementById('q4-c2-reason').value = data.q4C2Reason || '';
+                document.getElementById('q4-c3-full').value = data.q4C3Full || '';
+
+                if (Array.isArray(data.sources) && data.sources.length > 0) {
+                    sources = data.sources;
+                }
+                if (data.uploadedImages) {
+                    uploadedImages = data.uploadedImages;
+                    applyImagePreview('good', uploadedImages.good);
+                    applyImagePreview('bad', uploadedImages.bad);
+                }
+            } catch (e) {
+                console.error('데이터 로드 오류', e);
+            }
+        }
+
+        function confirmResetModal() {
+            document.getElementById('reset-modal').classList.remove('hidden');
+        }
+        function closeResetModal() {
+            document.getElementById('reset-modal').classList.add('hidden');
+        }
+        function executeReset() {
+            localStorage.removeItem(STORAGE_KEY);
+            document.querySelectorAll('input[type="text"], textarea').forEach(el => el.value = '');
+            sources = [{ tool: '', query: '', url: '' }];
+            uploadedImages = { good: '', bad: '' };
+            applyImagePreview('good', '');
+            applyImagePreview('bad', '');
+            renderSources();
+            updateAll();
+            closeResetModal();
+            showToast('모든 탐구 기록이 초기화되었습니다.', 'warning');
+        }
+    </script>
+</body>
+</html>
